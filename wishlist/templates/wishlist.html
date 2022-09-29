@@ -7,13 +7,12 @@
 {% load static %}  
 
 <nav class="navbar navbar-expand-lg bg-light">
-    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+    <div class="container-fluid">
         <ul class="navbar-nav mr-auto">
             <li class="navbar-brand">
                 <a class="nav-link">Hi, {{nama}}</a>
             </li>
-            <li class="nav-brand">
-                <button class="btn btn-primary"><a href="{% url 'wishlist:logout' %}"></a>Logout</button>
+                <button class="btn btn-dark" type="button"><a href="{% url 'wishlist:logout' %}">Logout</a></button>
             </li>
         </ul>
     </div>
