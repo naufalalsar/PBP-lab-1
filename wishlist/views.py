@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -24,6 +25,18 @@ def show_wishlist(request):
         'last_login': request.COOKIES['last_login'],
         }
     return render(request, "wishlist.html", context)
+
+@login_required(login_url='/wishlist/login/')
+def show_wishlist_ajax(request):
+    if request.method == 'POST':
+        temp = BarangWishlist(nama_barang=request.POST.get('judul'),harga_barang=request.POST.get('harga'),deskripsi=request.POST.get('description'))
+        temp.save()
+        return JsonResponse({'message': 'success'})
+
+    context = {}
+    return render(request, "wishlist_ajax.html",context)
+
+
 
 def show_wishlist_xml(request):
 
