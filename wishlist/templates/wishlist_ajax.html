@@ -75,7 +75,7 @@
                         <input type="text" id="description" name="description" placeholder="Description." class="form-control">
     
                         <div class="div d-flex justify-content-center mt-3">
-                        <button class="btn btn-success"  onclick="a()">Create</button>
+                        <button class="btn btn-success"  onclick="update()">Create</button>
                         </div>
                 
             </div>
@@ -89,22 +89,42 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-  function b() {
+
+function update(){
+
+      $.ajax({
+        url: "/wishlist/ajax/",
+        method: "POST",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken")
+        },
+        data:{
+          judul : $('#judul').val(),
+          description : $("#description").val(),
+          harga : $("#harga").val(),
+        },
+      success: function(){
+        show();
+      },
+      error: function(){
+        aler("error");
+      }
+    })}
+
+  function show() {
     $.get("/wishlist/json", function(data) {
       $("#table").html("")
           for(let i = 0; i < data.length ; i++){
-            $("#table").append(`<tr>
-  <td>${data[i].fields.nama_barang}</td>
-  <td>${data[i].fields.harga_barang}</td>
-  <td>${data[i].fields.deskripsi}</td>
-</tr>`)
-          }
-
-          
+              $("#table").append(`<tr>
+              <td>${data[i].fields.nama_barang}</td>
+              <td>${data[i].fields.harga_barang}</td>
+              <td>${data[i].fields.deskripsi}</td>
+              </tr>`)
+            }
         });
   }
     $(document).ready(function(){
-        b();
+        show();
     });
 
     function getCookie(name) {
@@ -122,26 +142,6 @@
     }
     return cookieValue;
 }
-
-    function a(){
-      $.ajax({
-        url: "/wishlist/ajax/",
-        method: "POST",
-        headers: {
-          "X-CSRFToken": getCookie("csrftoken")
-        },
-        data:{
-          judul : $('#judul').val(),
-        description : $("#description").val(),
-        harga : $("#harga").val(),
-        },
-      success: function(){
-        b();
-      },
-      error: function(){
-        aler("error");
-      }
-    })}
 
     
     
